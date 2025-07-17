@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 
 const MemeCard = ({ meme }) => {
     return (
-        <div className="card w-72 bg-zinc-800 shadow-xl image-full m-4">
-            <figure><img src={meme.imageUrl} alt={meme.title} className="w-full h-full object-cover" /></figure>
-            <div className="card-body justify-end">
-                <h2 className="card-title text-white">{meme.title}</h2>
-                <p className="text-gray-300">{meme.description}</p>
-                <div className="card-actions justify-end">
-                    <Link to={`/meme/${meme.id}`} className="btn btn-primary">View Meme</Link>
-                </div>
+        <div className="max-w-sm bg-zinc-800 rounded-lg overflow-hidden shadow-lg m-4 border border-gray-700">
+            <Link to={`/meme/${meme.id}`}>
+                <img className="w-full h-56 object-cover" src={meme.imageUrl} alt={meme.title} />
+            </Link>
+            <div className="p-6">
+                <h2 className="font-bold text-xl mb-2 text-white">{meme.title}</h2>
+                <p className="text-gray-400 text-base">
+                    {meme.description}
+                </p>
             </div>
         </div>
     );
