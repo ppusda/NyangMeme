@@ -49,7 +49,7 @@ const Home = () => {
         <div className="min-h-screen bg-zinc-900 text-white flex flex-col items-center">
             <div className="container mx-auto p-4">
                 <h2 className="text-3xl font-bold text-center my-8">Popular Cat Memes</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-4">
                     {memes.map((meme) => (
                         <MemeCard key={meme.id} meme={meme} />
                     ))}
@@ -63,7 +63,7 @@ const App = () => {
     return (
         <Router>
             <Header />
-            <Routes>
+            <Routes class="bg-zinc-900">
                 <Route path="/" element={<Home />} />
                 {/* 다른 라우트들을 여기에 추가할 수 있습니다. */}
             </Routes>
