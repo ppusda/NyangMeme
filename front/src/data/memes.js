@@ -35,4 +35,18 @@ export const memes = [
         description: 'A cat with a pop-tart body flying through space.',
         imageUrl: 'https://cataas.com/cat/says/Nyan?fontSize=50&fontColor=white'
     },
+    {
+        id: 7,
+        title: 'Oiiaii Cat',
+        description: 'A special interactive cat.',
+        imageUrl: '/src/assets/oiiaii/image/oiiaii.png',
+        interaction: {
+            still: '/src/assets/oiiaii/image/oiiaii.png',
+            slowGif: '/src/assets/oiiaii/image/oiiaii_slow.gif',
+            fastGif: '/src/assets/oiiaii/image/oiiaii_fast.gif',
+            slowSound: '/src/assets/oiiaii/sound/oiiaii_slow.mp3',
+            fastSound: '/src/assets/oiiaii/sound/oiiaii_fast.mp3',
+            musicSound: '/src/assets/oiiaii/sound/oiiaii_music.mp3',
+        },
+    },
 ];
