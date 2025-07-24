@@ -19,9 +19,8 @@ const MemeDetail = () => {
     const [currentImageSrc, setCurrentImageSrc] = useState(meme?.imageUrl);
     const [isMusicPlaying, setIsMusicPlaying] = useState(false);
     const audioRef = useRef(null); // Use ref for audio object
-    const clickTimeoutRef = useRef(null); // Use ref for timeout ID
 
-    // Initialize image source when meme changes or component mounts
+    // Initialize image source and reset state when meme changes or component mounts
     useEffect(() => {
         if (meme && meme.interaction) {
             setCurrentImageSrc(oiiaiiStill);
@@ -34,47 +33,63 @@ const MemeDetail = () => {
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
-        }
-        if (clickTimeoutRef.current) {
-            clearTimeout(clickTimeoutRef.current);
+            audioRef.current = null;
         }
     }, [meme]);
 
-    // Effect for handling audio playback based on clickCount and isMusicPlaying
+    // Effect for handling audio playback and image updates based on clickCount and isMusicPlaying
     useEffect(() => {
         // Stop current audio if playing
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
+            audioRef.current = null; // Clear the ref
         }
 
         let newAudioSrc = null;
+        let newImageToDisplay = oiiaiiStill; // Default to still image
+
         if (meme && meme.interaction) {
             if (isMusicPlaying) {
                 newAudioSrc = oiiaiiMusicSound;
+                newImageToDisplay = oiiaiiFastGif;
             } else if (clickCount >= 1 && clickCount <= 2) {
                 newAudioSrc = oiiaiiSlowSound;
+                newImageToDisplay = oiiaiiSlowGif;
             } else if (clickCount >= 3 && clickCount <= 5) {
                 newAudioSrc = oiiaiiFastSound;
+                newImageToDisplay = oiiaiiFastGif;
             }
+            // If clickCount is 0 and not music playing, newAudioSrc is null, newImageToDisplay is oiiaiiStill
         }
+
+        setCurrentImageSrc(newImageToDisplay); // Always set the image based on current state
 
         if (newAudioSrc) {
-            audioRef.current = new Audio(newAudioSrc);
-            audioRef.current.loop = isMusicPlaying; // Loop only for music
-            audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-        } else {
-            audioRef.current = null; // No audio to play
+            const audio = new Audio(newAudioSrc);
+            audioRef.current = audio; // Store the new audio object in ref
+
+            audio.loop = isMusicPlaying; // Loop only for music
+
+            if (!isMusicPlaying) { // For slow/fast sounds, reset after they end
+                audio.onended = () => {
+                    setClickCount(0);
+                    setCurrentImageSrc(oiiaiiStill);
+                };
+            }
+
+            audio.play().catch(e => console.error("Audio play failed:", e));
         }
 
-        // Cleanup function to stop audio when component unmounts or dependencies change
+        // Cleanup function: stop audio when component unmounts or dependencies change
         return () => {
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
+                audioRef.current = null;
             }
         };
-    }, [clickCount, isMusicPlaying, meme]);
+    }, [clickCount, isMusicPlaying, meme]); // Dependencies
 
     const handleImageClick = () => {
         if (meme && meme.interaction) {
@@ -82,38 +97,19 @@ const MemeDetail = () => {
             if (isMusicPlaying) {
                 setClickCount(0);
                 setIsMusicPlaying(false);
-                setCurrentImageSrc(oiiaiiStill);
-                if (clickTimeoutRef.current) {
-                    clearTimeout(clickTimeoutRef.current);
-                }
+                // Image and audio will be reset by useEffect due to state change
                 return;
             }
 
-            // Clear previous timeout on new click
-            if (clickTimeoutRef.current) {
-                clearTimeout(clickTimeoutRef.current);
-            }
-
             const newClickCount = clickCount + 1;
-            setClickCount(newClickCount);
 
-            if (newClickCount >= 1 && newClickCount <= 2) {
-                setCurrentImageSrc(oiiaiiSlowGif);
-            } else if (newClickCount >= 3 && newClickCount <= 5) {
-                setCurrentImageSrc(oiiaiiFastGif);
-            } else if (newClickCount >= 6) {
-                setCurrentImageSrc(oiiaiiFastGif);
-                setIsMusicPlaying(true); // Activate music playing state
+            if (newClickCount >= 6) {
+                setIsMusicPlaying(true); // Set music state first
+                setClickCount(newClickCount); // Then click count
+            } else {
+                setClickCount(newClickCount);
             }
-
-            // Set a new timeout to reset clickCount if no further clicks occur
-            // This timeout is NOT set if music is now playing
-            if (!isMusicPlaying) { // Only set timeout if not in music playing state
-                clickTimeoutRef.current = setTimeout(() => {
-                    setClickCount(0);
-                    setCurrentImageSrc(oiiaiiStill);
-                }, 1000); // Reset after 1 second of inactivity
-            }
+            // The useEffect will handle image and audio based on these state changes
         }
     };
 
@@ -140,3 +136,4 @@ const MemeDetail = () => {
 };
 
 export default MemeDetail;
+
