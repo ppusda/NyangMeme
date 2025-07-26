@@ -1,2 +1,95 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Existing background animation */
+@keyframes music-background-animation {
+    0% { background-color: #27272a; } /* zinc-800 */
+    16% { background-color: #3f3f46; } /* zinc-700 */
+    33% { background-color: #4a69bd; } /* muted blue */
+    50% { background-color: #4cd137; } /* muted green */
+    66% { background-color: #e84118; } /* muted red */
+    83% { background-color: #fbc531; } /* muted yellow */
+    100% { background-color: #27272a; } /* zinc-800 */
+}
+
+.music-background-animation {
+    animation: music-background-animation 5s infinite alternate;
+}
+
+/* Main image animation - flying through space in all diagonals */
+@keyframes music-image-animation {
+    0% { transform: translate(0, 0) scale(0.7) rotate(0deg); } /* Center */
+    20% { transform: translate(-100px, -70px) scale(0.6) rotate(-15deg); } /* Top-Left */
+    40% { transform: translate(100px, -70px) scale(0.7) rotate(15deg); }  /* Top-Right */
+    60% { transform: translate(100px, 70px) scale(0.6) rotate(-15deg); }   /* Bottom-Right */
+    80% { transform: translate(-100px, 70px) scale(0.7) rotate(15deg); }  /* Bottom-Left */
+    100% { transform: translate(0, 0) scale(0.7) rotate(0deg); } /* Return to Center */
+}
+
+.music-image-animation {
+    animation: music-image-animation 4s infinite ease-in-out;
+    z-index: 2; /* Ensure the main image is on top of the clones */
+}
+
+/* New styles for image cloning effect */
+.clone {
+    position: absolute;
+    top: 50%; /* Start vertical alignment from center */
+    left: 50%; /* Start horizontal alignment from center */
+    width: 50%; /* Smaller clones */
+    height: 50%;
+    margin-left: -25%; /* Center the clone horizontally before transform */
+    margin-top: -25%; /* Center the clone vertically before transform */
+    background-image: url('./assets/oiiaii/image/oiiaii_fast.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes flow-animation {
+    0% {
+        transform: translateX(-200%) translateY(var(--ty)) scale(var(--s));
+        opacity: 0.8;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(200%) translateY(var(--ty)) scale(var(--s));
+        opacity: 0;
+    }
+}
+
+.clone-1 {
+    --ty: -60%;
+    --s: 0.5;
+    animation: flow-animation 4s infinite linear;
+    animation-delay: 0s;
+}
+
+.clone-2 {
+    --ty: 40%;
+    --s: 0.3;
+    animation: flow-animation 3s infinite linear;
+    animation-delay: 1.5s;
+}
+
+.clone-3 {
+    --ty: -20%;
+    --s: 0.6;
+    animation: flow-animation 5s infinite linear;
+    animation-delay: 2.5s;
+}
+
+.clone-4 {
+    --ty: 80%;
+    --s: 0.4;
+    animation: flow-animation 3.5s infinite linear;
+    animation-delay: 3.5s;
+}

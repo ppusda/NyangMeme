@@ -10,6 +10,7 @@ import oiiaiiFastGif from '../assets/oiiaii/image/oiiaii_fast.gif';
 import oiiaiiSlowSound from '../assets/oiiaii/sound/oiiaii_slow.mp3';
 import oiiaiiFastSound from '../assets/oiiaii/sound/oiiaii_fast.mp3';
 import oiiaiiMusicSound from '../assets/oiiaii/sound/oiiaii_music.mp3';
+import spaceBackground from '../assets/oiiaii/image/space_background.jpg';
 
 const MemeDetail = () => {
     const { id } = useParams();
@@ -119,15 +120,32 @@ const MemeDetail = () => {
 
     return (
         <div className="min-h-screen bg-zinc-900 text-white flex flex-col items-center p-4">
-            <div className="bg-zinc-800 rounded-lg shadow-xl p-6 max-w-4xl w-full">
+            <div className={`bg-zinc-800 rounded-lg shadow-xl p-6 max-w-4xl w-full ${isMusicPlaying ? 'music-background-animation' : ''}`}>
                 <h1 className="text-4xl font-bold mb-4 text-center">{meme.title}</h1>
-                <div className="relative w-full aspect-video bg-zinc-700 rounded-lg overflow-hidden mb-6 flex items-center justify-center">
-                    <img
-                        src={currentImageSrc}
-                        alt={meme.title}
-                        className="w-full h-full object-contain cursor-pointer"
-                        onClick={handleImageClick}
+                <div className="relative w-full aspect-video bg-zinc-700 rounded-lg mb-6 flex items-center justify-center">
+                    <div
+                        className="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000"
+                        style={{
+                            backgroundImage: `url(${spaceBackground})`,
+                            opacity: isMusicPlaying ? 1 : 0,
+                        }}
                     />
+                    <div className={`w-full h-full relative music-image-wrapper ${isMusicPlaying ? 'overflow-visible' : 'overflow-hidden'}`}>
+                        <img
+                            src={currentImageSrc}
+                            alt={meme.title}
+                            className={`w-full h-full object-contain cursor-pointer ${isMusicPlaying ? 'music-image-animation' : ''}`}
+                            onClick={handleImageClick}
+                        />
+                        {isMusicPlaying && (
+                            <>
+                                <div className="clone clone-1"></div>
+                                <div className="clone clone-2"></div>
+                                <div className="clone clone-3"></div>
+                                <div className="clone clone-4"></div>
+                            </>
+                        )}
+                    </div>
                 </div>
                 <p className="text-zinc-300 text-lg text-center">{meme.description}</p>
             </div>
