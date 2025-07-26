@@ -37,8 +37,8 @@ export const memes = [
     },
     {
         id: 7,
-        title: 'Oiiaii Cat',
-        description: 'A special interactive cat.',
+        title: 'OIIAII CAT',
+        description: '클릭해서 고양이를 돌려보세요!',
         imageUrl: '/src/assets/oiiaii/image/oiiaii.png',
         interaction: {
             still: '/src/assets/oiiaii/image/oiiaii.png',
