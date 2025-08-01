@@ -128,10 +128,31 @@ const Oiiaii = ({ meme }) => {
             </div>
             {isExpanded && (
                 <div className="mt-4 pt-4 border-t border-zinc-700">
-                    <h2 className="text-2xl font-bold mb-2">Origin</h2>
-                    <p className="text-zinc-400 mb-4">{meme.origin}</p>
-                    <h2 className="text-2xl font-bold mb-2">Source</h2>
-                    <a href={meme.source} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{meme.source}</a>
+                    <h2 className="text-2xl font-bold mb-2">유래</h2>
+                    <p className="text-zinc-400 mb-4 whitespace-pre-line">{meme.origin}</p>
+                    <h2 className="text-2xl font-bold mb-2">관련 링크</h2>
+                    <ul>
+                        {meme.source.map((s, index) => (
+                            <li key={index} className="mb-4">
+                                {s.type === 'youtube' ? (
+                                    <div>
+                                        <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{s.name}</a>
+                                        <div className="max-w-md mx-auto mt-2 aspect-w-16 aspect-h-9">
+                                            <iframe
+                                                src={`https://www.youtube.com/embed/${s.url.split('v=')[1]}`}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                                className="w-full h-full rounded-lg shadow-lg"
+                                            ></iframe>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{s.name}</a>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             )}
         </div>
