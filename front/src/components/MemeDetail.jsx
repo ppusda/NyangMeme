@@ -33,19 +33,25 @@ const MemeDetail = () => {
                         </button>
                     </div>
                     {isExpanded && (
-                        <div className="mt-4 pt-4 border-t border-zinc-700">
-                            <h2 className="text-2xl font-bold mb-2">유래</h2>
-                            <p className="text-zinc-400 mb-4 whitespace-pre-line">{meme.origin}</p>
-                            <h2 className="text-2xl font-bold mb-2">관련 링크</h2>
-                            <ul>
-                                {meme.source.map((s, index) => (
-                                    <li key={index} className="mb-4">
-                                        {s.type === 'youtube' ? (
-                                            <div>
-                                                <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{s.name}</a>
-                                                <div className="max-w-md mx-auto mt-2 aspect-w-16 aspect-h-9">
+                        <div className="mt-4 pt-4 border-t border-zinc-700 text-left">
+                            <h2 className="text-3xl font-bold mb-4">이 밈에 대하여</h2>
+                            {meme.origin.map((item, index) => {
+                                switch (item.type) {
+                                    case 'heading':
+                                        return <h3 key={index} className="text-2xl font-bold mt-6 mb-2">{item.content}</h3>;
+                                    case 'paragraph':
+                                        return <p key={index} className="text-zinc-300 mb-4 whitespace-pre-line">{item.content}</p>;
+                                    case 'link':
+                                        return (
+                                            <a key={index} href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline block mb-4">{item.name}</a>
+                                        );
+                                    case 'youtube':
+                                        return (
+                                            <div key={index} className="mb-4">
+                                                <p className="text-zinc-300 mb-2">{item.name}</p>
+                                                <div className="max-w-md aspect-w-16 aspect-h-9">
                                                     <iframe
-                                                        src={`https://www.youtube.com/embed/${s.url.split('v=')[1]}`}
+                                                        src={`https://www.youtube.com/embed/${item.url.split('v=')[1]}`}
                                                         frameBorder="0"
                                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                         allowFullScreen
@@ -53,12 +59,11 @@ const MemeDetail = () => {
                                                     ></iframe>
                                                 </div>
                                             </div>
-                                        ) : (
-                                            <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{s.name}</a>
-                                        )}
-                                    </li>
-                                ))}
-                            </ul>
+                                        );
+                                    default:
+                                        return null;
+                                }
+                            })}
                         </div>
                     )}
                 </div>
