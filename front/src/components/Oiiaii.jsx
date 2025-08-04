@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Import assets for oiiaii cat
+// 오이아이 고양이 에셋 불러오기
 import oiiaiiStill from '../assets/oiiaii/image/oiiaii.png';
 import oiiaiiSlowGif from '../assets/oiiaii/image/oiiaii_slow.gif';
 import oiiaiiFastGif from '../assets/oiiaii/image/oiiaii_fast.gif';
@@ -16,7 +16,7 @@ const Oiiaii = ({ meme }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const audioRef = useRef(null);
 
-    // Physics state
+    // 물리 상태
     const containerRef = useRef(null);
     const imageRef = useRef(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -26,7 +26,7 @@ const Oiiaii = ({ meme }) => {
     const [trail, setTrail] = useState([]);
     const animationFrameRef = useRef();
 
-    // Function to center the cat
+    // 고양이 중앙 정렬 함수
     const centerCat = () => {
         if (containerRef.current && imageRef.current) {
             const containerRect = containerRef.current.getBoundingClientRect();
@@ -39,7 +39,7 @@ const Oiiaii = ({ meme }) => {
     };
 
     useEffect(() => {
-        // Reset state when meme changes
+        // 밈이 변경될 때 상태 초기화
         setCurrentImageSrc(oiiaiiStill);
         setClickCount(0);
         setIsMusicPlaying(false);
@@ -47,16 +47,16 @@ const Oiiaii = ({ meme }) => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
         }
-        // Reset physics state
+        // 물리 상태 초기화
         cancelAnimationFrame(animationFrameRef.current);
         setVelocity({ x: 0, y: 0 });
         setIsDragging(false);
         setTrail([]);
-        // Recenter the cat for the new meme display
+        // 새 밈 표시를 위해 고양이 중앙 재정렬
         centerCat();
     }, [meme]);
 
-    // Sound and Image logic
+    // 사운드 및 이미지 로직
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.pause();
@@ -94,26 +94,26 @@ const Oiiaii = ({ meme }) => {
         }
     }, [clickCount, isMusicPlaying]);
 
-    // Initialize position and handle music start
+    // 위치 초기화 및 음악 시작 처리
     useEffect(() => {
         if (isMusicPlaying) {
             centerCat();
-            // Start random movement when music plays
+            // 음악 재생 시 무작위 움직임 시작
             setVelocity({
                 x: (Math.random() - 0.5) * 30,
                 y: (Math.random() - 0.5) * 30,
             });
         } else {
-            // When music stops, reset position and velocity
+            // 음악이 멈추면 위치 및 속도 초기화
             centerCat();
             setVelocity({ x: 0, y: 0 });
             cancelAnimationFrame(animationFrameRef.current);
-            setTrail([]); // Clear the trail
+            setTrail([]); // 흔적 지우기
         }
     }, [isMusicPlaying]);
 
 
-    // Physics animation loop
+    // 물리 애니메이션 루프
     useEffect(() => {
         const animate = () => {
             if (!containerRef.current || !imageRef.current) return;
@@ -127,22 +127,22 @@ const Oiiaii = ({ meme }) => {
             let newPos = { x: position.x + velocity.x, y: position.y + velocity.y };
             let newVel = { x: velocity.x, y: velocity.y };
 
-            // Wall collision
+            // 벽 충돌
             if (newPos.x < 0 || newPos.x + imageWidth > rect.width) {
-                newVel.x *= -0.98; // Increased bounciness
+                newVel.x *= -0.98; // 탄성 증가
                 newPos.x = newPos.x < 0 ? 0 : rect.width - imageWidth;
             }
             if (newPos.y < 0 || newPos.y + imageHeight > rect.height) {
-                newVel.y *= -0.98; // Increased bounciness
+                newVel.y *= -0.98; // 탄성 증가
                 newPos.y = newPos.y < 0 ? 0 : rect.height - imageHeight;
             }
 
-            // Friction
-            newVel.x *= 0.995; // Reduced friction
-            newVel.y *= 0.995; // Reduced friction
+            // 마찰
+            newVel.x *= 0.995; // 마찰 감소
+            newVel.y *= 0.995; // 마찰 감소
 
-            // Add a new point to the trail
-            setTrail(prevTrail => [...prevTrail, { x: newPos.x, y: newPos.y }].slice(-20)); // Keep last 20 points
+            // 흔적에 새 점 추가
+            setTrail(prevTrail => [...prevTrail, { x: newPos.x, y: newPos.y }].slice(-20)); // 마지막 20개 점 유지
 
             if (Math.abs(newVel.x) < 0.1 && Math.abs(newVel.y) < 0.1) {
                 newVel = { x: 0, y: 0 };
@@ -164,7 +164,7 @@ const Oiiaii = ({ meme }) => {
 
     const handleImageClick = (e) => {
         if (isMusicPlaying) {
-            // When music is playing, click toggles it off.
+            // 음악이 재생 중일 때 클릭하면 꺼집니다.
             setIsMusicPlaying(false);
             setClickCount(0);
             return;
@@ -173,14 +173,14 @@ const Oiiaii = ({ meme }) => {
         const newClickCount = clickCount + 1;
         if (newClickCount >= 3) {
             setIsMusicPlaying(true);
-            setClickCount(0); // Reset for next cycle
+            setClickCount(0); // 다음 주기를 위해 초기화
         } else {
             setClickCount(newClickCount);
         }
     };
 
     const handleMouseDown = (e) => {
-        if (!isMusicPlaying) return; // Only allow dragging when music is playing
+        if (!isMusicPlaying) return; // 음악이 재생 중일 때만 드래그 허용
 
         cancelAnimationFrame(animationFrameRef.current);
         setIsDragging(true);
@@ -205,7 +205,7 @@ const Oiiaii = ({ meme }) => {
         let newX = e.clientX - containerRect.left - dragStart.offsetX;
         let newY = e.clientY - containerRect.top - dragStart.offsetY;
 
-        // Keep cat within bounds while dragging
+        // 드래그하는 동안 고양이를 경계 내에 유지
         newX = Math.max(0, Math.min(newX, containerRect.width - imageWidth));
         newY = Math.max(0, Math.min(newY, containerRect.height - imageHeight));
 
@@ -218,7 +218,7 @@ const Oiiaii = ({ meme }) => {
 
         const dragEnd = { x: e.clientX, y: e.clientY };
         const dragVector = {
-            x: (dragEnd.x - dragStart.x) / 10, // Increased power
+            x: (dragEnd.x - dragStart.x) / 10, // 힘 증가
             y: (dragEnd.y - dragStart.y) / 10,
         };
 
@@ -236,7 +236,7 @@ const Oiiaii = ({ meme }) => {
             <h1 className="text-4xl font-bold mb-4 text-center">{meme.title}</h1>
             <div
                 ref={containerRef}
-                className="relative w-full aspect-video bg-zinc-700 rounded-lg mb-6 flex items-center justify-center overflow-hidden" // overflow-hidden on container
+                className="relative w-full aspect-video bg-zinc-700 rounded-lg mb-6 flex items-center justify-center overflow-hidden" // 컨테이너에 overflow-hidden
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
@@ -248,9 +248,9 @@ const Oiiaii = ({ meme }) => {
                         opacity: isMusicPlaying ? 1 : 0,
                     }}
                 />
-                {/* Rainbow Trail */}
+                {/* 무지개 흔적 */}
                 {isMusicPlaying && trail.map((p, index) => {
-                    const size = imageRef.current ? imageRef.current.offsetHeight * (0.1 + (index / trail.length) * 0.3) : 10; // Smaller size
+                    const size = imageRef.current ? imageRef.current.offsetHeight * (0.1 + (index / trail.length) * 0.3) : 10; // 더 작은 크기
                     return (
                         <div
                             key={index}
@@ -260,7 +260,7 @@ const Oiiaii = ({ meme }) => {
                                 top: `${p.y + (imageRef.current ? imageRef.current.offsetHeight / 2 : 0)}px`,
                                 width: `${size}px`,
                                 height: `${size}px`,
-                                backgroundColor: `hsla(${(index * 20) % 360}, 100%, 70%, 0.7)`, // Added transparency and lighter color
+                                backgroundColor: `hsla(${(index * 20) % 360}, 100%, 70%, 0.7)`, // 투명도 및 밝은 색상 추가
                                 opacity: index / trail.length,
                                 transform: 'translate(-50%, -50%)',
                                 zIndex: 1,
@@ -283,7 +283,7 @@ const Oiiaii = ({ meme }) => {
                         userSelect: 'none',
                         width: 'auto',
                         height: '45%',
-                        zIndex: 2, // Cat is above the trail
+                        zIndex: 2, // 고양이가 흔적 위에 있도록
                     }}
                     onClick={handleImageClick}
                     onMouseDown={handleMouseDown}
@@ -291,7 +291,7 @@ const Oiiaii = ({ meme }) => {
                 />
                 {isMusicPlaying && (
                     <>
-                        {/* These clones will use CSS animations defined in your CSS file */}
+                        {/* 이 클론들은 CSS 파일에 정의된 CSS 애니메이션을 사용합니다 */}
                         <div className="clone clone-1" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
                         <div className="clone clone-2" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
                         <div className="clone clone-3" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
