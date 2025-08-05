@@ -37,9 +37,13 @@ export const memes = [
     {
         id: 5,
         title: 'Keyboard Cat',
-        description: 'A cat playing the keyboard.',
-        imageUrl: 'https://cataas.com/cat/says/Keyboard?fontSize=50&fontColor=white',
-        origin: [],
+        description: '키보드 입력을 통해 고양이를 연주하게 하세요!',
+        imageUrl: '/src/assets/keyboard/image/keyboard_cat_stop.gif',
+        interaction: 'keyboard',
+        origin: [
+            { type: 'paragraph', content: '키보드 캣은 가장 오래되고 유명한 고양이 밈 중 하나입니다. 1984년 찰리 슈미트가 만든 원본 영상에는 그의 고양이 팻소가 파란 셔츠를 입고 전자 키보드를 "연주"하는 모습이 담겨 있습니다.' },
+            { type: 'youtube', name: `Charlie Schmidt's Keyboard Cat! - THE ORIGINAL!` , url: 'https://www.youtube.com/watch?v=J---aiyznGQ' }
+        ],
         source: []
     },
     {
@@ -55,14 +59,7 @@ export const memes = [
         title: 'OIIA CAT',
         description: '클릭해서 고양이를 돌려보세요!',
         imageUrl: '/src/assets/oiiaii/image/oiiaii.png',
-        interaction: {
-            still: '/src/assets/oiiaii/image/oiiaii.png',
-            slowGif: '/src/assets/oiiaii/image/oiiaii_slow.gif',
-            fastGif: '/src/assets/oiiaii/image/oiiaii_fast.gif',
-            slowSound: '/src/assets/oiiaii/sound/oiiaii_slow.mp3',
-            fastSound: '/src/assets/oiiaii/sound/oiiaii_fast.mp3',
-            musicSound: '/src/assets/oiiaii/sound/oiiaii_music.mp3',
-        },
+        interaction: 'oiiaii',
         origin: [
             { type: 'paragraph', content: `이 밈은 본래 '해피캣(Happy Cat)' 밈에 등장하는 고양이 중 하나였습니다. 하지만 2024년부터 'OIIA'라는 독특한 사운드를 활용한 노래 커버와 리믹스가 큰 인기를 끌면서 독립적인 밈으로 자리 잡게 되었습니다.` },
             { type: 'heading', content: '대표 리믹스' },
