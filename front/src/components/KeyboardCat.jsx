@@ -26,7 +26,7 @@ const KeyboardCat = ({ meme }) => {
             setIsTyping(true);
             typingTimeoutRef.current = setTimeout(() => {
                 setIsTyping(false);
-            }, 500); // 0.5초의 딜레이
+            }, 800); // 0.5초의 딜레이
         };
 
         window.addEventListener('keydown', handleKeyDown);

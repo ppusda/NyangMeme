@@ -37,7 +37,7 @@ export const memes = [
     {
         id: 5,
         title: 'Keyboard Cat',
-        description: '키보드 입력을 통해 고양이를 연주하게 하세요!',
+        description: '키보드 입력으로 고양이와 함께 연주하세요!',
         imageUrl: '/src/assets/keyboard/image/keyboard_cat_stop.gif',
         interaction: 'keyboard',
         origin: [
