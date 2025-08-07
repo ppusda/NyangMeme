@@ -37,12 +37,21 @@ export const memes = [
     {
         id: 5,
         title: 'Keyboard Cat',
-        description: '키보드 입력으로 고양이와 함께 연주하세요!',
+        description: '아무 키나 눌러서 고양이와 피아노를 연주해보세요!',
         imageUrl: '/src/assets/keyboard/image/keyboard_cat_stop.gif',
         interaction: 'keyboard',
         origin: [
-            { type: 'paragraph', content: '키보드 캣은 가장 오래되고 유명한 고양이 밈 중 하나입니다. 1984년 찰리 슈미트가 만든 원본 영상에는 그의 고양이 팻소가 파란 셔츠를 입고 전자 키보드를 "연주"하는 모습이 담겨 있습니다.' },
-            { type: 'youtube', name: `Charlie Schmidt's Keyboard Cat! - THE ORIGINAL!` , url: 'https://www.youtube.com/watch?v=J---aiyznGQ' }
+            { type: 'paragraph', content: '키보드 캣(Keyboard Cat)은 고양이가 키보드를 연주하는 듯한 영상으로 시작된 유명한 인터넷 밈입니다. 1984년 찰리 슈미트가 자신의 고양이 팻소(Fatso)가 키보드를 치는 모습을 촬영했고, 이 영상은 나중에 인터넷에서 큰 인기를 얻게 되었습니다.' },
+            { type: 'paragraph', content: '이 영상은 사람들이 실수하거나 넘어지는 영상의 끝에 삽입되어, 마치 고양이가 "잘못했으니 이제 키보드 연주로 마무리하자"는 듯한 유머러스한 상황을 연출하며 "Play Him Off, Keyboard Cat(키보드 캣, 놀아줘)"이라는 문구와 함께 널리 퍼졌습니다.' },
+            { type: 'heading', content: '대표 영상' },
+            { type: 'youtube', name: `Charlie Schmidt's Keyboard Cat! - THE ORIGINAL!` , url: 'https://www.youtube.com/watch?v=J---aiyznGQ' },
+            { type: 'heading', content: '고양이 이야기' },
+            { type: 'link', name: `Charlie Schmidt's Youtube Channel - Keyboard Cat!` , url: 'https://www.youtube.com/@keyboardcatreal/featured' },
+            { type: 'paragraph', content: '최초의 키보드 캣인 팻소는 부드럽게 만져주는 것을 좋아했으며 Green Onions 음악을 특히 좋아했다고 전해집니다. 팻소는 1987년에 세상을 떠났습니다.' },
+            { type: 'paragraph', content: '이후 피아노 캣의 팻소와 외모가 매우 유사한 벤토(Bento)를 입양하게 되었습니다. 벤토는 TV나 광고 캠페인에도 등장하며 팬들 사이에서 공식 후계자로 불리게 되었습니다.' },
+            { type: 'youtube', name: `Keyboard Cat REINCARNATED!` , url: 'https://www.youtube.com/watch?v=xSE9Qk9wkig' },
+            { type: 'paragraph', content: '2018년에 벤토도 세상을 떠나게 되었고 현재는 스키니(Skinny)라는 고양이를 통해 키보드 캣 밈을 이어가고 있습니다.' },
+            { type: 'youtube', name: `Keyboard Cat 3.0, meet "Skinny"` , url: 'https://www.youtube.com/watch?v=Hj7rkIjYBlQ' },
         ],
         source: []
     },
