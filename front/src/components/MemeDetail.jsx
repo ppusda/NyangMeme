@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { memes } from '../data/memes.js';
 import Oiiaii from './Oiiaii';
 import KeyboardCat from './KeyboardCat';
+import NyanCat from './NyanCat';
 
 const MemeDetail = () => {
     const { id } = useParams();
@@ -19,6 +20,8 @@ const MemeDetail = () => {
                 return <Oiiaii meme={meme} />;
             case 'keyboard':
                 return <KeyboardCat meme={meme} />;
+            case 'nyan':
+                return <NyanCat meme={meme} />;
             default:
                 return (
                     <div className="bg-zinc-800 rounded-lg shadow-xl p-6 max-w-4xl w-full">
