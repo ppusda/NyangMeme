@@ -92,6 +92,13 @@ const Oiiaii = ({ meme }) => {
             }
             audio.play().catch(e => console.error("Audio play failed:", e));
         }
+
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
+        };
     }, [clickCount, isMusicPlaying]);
 
     // 위치 초기화 및 음악 시작 처리
