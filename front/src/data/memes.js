@@ -1,25 +1,6 @@
 export const memes = [
     {
         id: 1,
-        title: 'Grumpy Cat',
-        description: 'The original grumpy cat.',
-        imageUrl: 'https://cataas.com/cat/says/Grumpy?fontSize=50&fontColor=white',
-        origin: [
-            { type: 'paragraph', content: 'Grumpy Cat, real name Tardar Sauce, was a female cat and Internet celebrity known for her permanently "grumpy" facial appearance, which was caused by an underbite and feline dwarfism.' },
-            { type: 'link', name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Grumpy_Cat' }
-        ],
-        source: []
-    },
-    {
-        id: 2,
-        title: 'Crying Cat',
-        description: 'A cat that looks like its crying.',
-        imageUrl: 'https://cataas.com/cat/says/Crying?fontSize=50&fontColor=white',
-        origin: [],
-        source: []
-    },
-    {
-        id: 3,
         title: 'Bongo Cat',
         description: 'A cat playing the bongos.',
         imageUrl: 'https://cataas.com/cat/says/Bongo?fontSize=50&fontColor=white',
@@ -27,15 +8,7 @@ export const memes = [
         source: []
     },
     {
-        id: 4,
-        title: 'Longcat',
-        description: 'A very long cat.',
-        imageUrl: 'https://cataas.com/cat/says/Longcat?fontSize=50&fontColor=white',
-        origin: [],
-        source: []
-    },
-    {
-        id: 5,
+        id: 2,
         title: 'Keyboard Cat',
         description: '아무 키나 눌러서 고양이와 피아노를 연주해보세요!',
         imageUrl: '/src/assets/keyboard/image/keyboard_cat_stop.gif',
@@ -56,7 +29,7 @@ export const memes = [
         source: []
     },
     {
-        id: 6,
+        id: 3,
         title: 'Nyan Cat',
         description: '클릭해서 냥캣을 재생 해보세요!',
         imageUrl: '/src/assets/nyan/image/nyan_cat_stop.gif',
@@ -69,7 +42,7 @@ export const memes = [
         source: []
     },
     {
-        id: 7,
+        id: 4,
         title: 'OIIA CAT',
         description: '클릭해서 고양이를 돌려보세요!',
         imageUrl: '/src/assets/oiiaii/image/oiiaii.png',
