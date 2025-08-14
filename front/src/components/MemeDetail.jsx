@@ -4,6 +4,7 @@ import { memes } from '../data/memes.js';
 import Oiiaii from './Oiiaii';
 import KeyboardCat from './KeyboardCat';
 import NyanCat from './NyanCat';
+import BongoCat from './BongoCat';
 
 const MemeDetail = () => {
     const { id } = useParams();
@@ -16,6 +17,8 @@ const MemeDetail = () => {
 
     const renderMemeContent = () => {
         switch (meme.interaction) {
+            case 'bongo':
+                return <BongoCat meme={meme} />;
             case 'oiiaii':
                 return <Oiiaii meme={meme} />;
             case 'keyboard':
