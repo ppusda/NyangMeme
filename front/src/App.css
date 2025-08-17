@@ -105,5 +105,16 @@
 }
 
 .spin-animation {
-    animation: spin 2s linear infinite;
+    animation: spin 0.15s linear infinite;
+}
+
+
+
+@keyframes pre-transform-zoom {
+    from { transform: scale(1); }
+    to { transform: scale(2); }
+}
+
+.pre-transform-animation {
+    animation: pre-transform-zoom 1s linear forwards;
 }
