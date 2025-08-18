@@ -8,6 +8,7 @@ import bongoCat3 from '../assets/bongo/image/bongo_cat_3.gif';
 import bongoCat4 from '../assets/bongo/image/bongo_cat_4.gif';
 import bongoCat5 from '../assets/bongo/image/bongo_cat_5.gif';
 import bongoCatMove from '../assets/bongo/image/bongo_cat_move.gif';
+import spaceBackground from '../assets/bongo/image/space_background.jpg';
 
 import bongoSound1 from '../assets/bongo/sound/bongo_cat_1.mp3';
 import bongoSound2 from '../assets/bongo/sound/bongo_cat_2.mp3';
@@ -140,14 +141,18 @@ const BongoCat = ({ meme }) => {
     transformationPhase === 'active' ? 'music-background-animation' : 'bg-zinc-800'
   }`;
 
-  const mediaContainerClassName = `relative w-full aspect-video bg-transparent rounded-lg mb-6 flex items-center justify-center overflow-hidden`;
+  const mediaContainerStyle = transformationPhase === 'active' ? {
+    backgroundImage: `url(${spaceBackground})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  } : {};
 
-  let imageMotionContainerClassName = "w-full h-full flex items-center justify-center absolute";
+  let imageMotionContainerClassName = "w-full h-full flex absolute";
   if (transformationPhase === 'active') {
     imageMotionContainerClassName += ' music-image-animation';
   }
 
-  let imageRotationContainerClassName = "w-[60%] h-[60%]";
+  let imageRotationContainerClassName = "";
   if (transformationPhase === 'starting') {
     imageRotationContainerClassName += ' pre-transform-animation';
   } else if (transformationPhase === 'active') {
@@ -169,7 +174,8 @@ const BongoCat = ({ meme }) => {
     <div className={rootContainerClassName}>
         <h1 className="text-4xl font-bold mb-4 text-center">{meme.title}</h1>
         <div 
-          className={mediaContainerClassName}
+          style={mediaContainerStyle}
+          className="relative w-full aspect-video rounded-lg mb-6 flex items-center justify-center overflow-hidden bg-zinc-700"
           onClick={transformationPhase !== 'none' ? handleStopTransformation : undefined}
         >
             <div className={imageMotionContainerClassName}>
@@ -183,7 +189,7 @@ const BongoCat = ({ meme }) => {
             </div>
             {transformationPhase === 'none' && (
               <div className="absolute bottom-4 right-4 flex items-center gap-2">
-                  <p className="text-zinc-400 text-sm">Hint: 3535532421...?</p>
+                  <p className="text-zinc-400 text-sm"> 3535532421...?</p>
                   <button
                       onClick={startAutoPlay}
                       disabled={isAutoPlaying}
