@@ -2,16 +2,19 @@ export const memes = [
     {
         id: 1,
         title: 'Bongo Cat',
-        description: '1,2,3,4,5를 눌러서 고양이와 연주해보세요!',
-        imageUrl: '/src/assets/bongo/bongo_cat_stop.png',
+        description: '1, 2, 3, 4, 5를 눌러서 고양이와 연주해보세요!',
+        imageUrl: '/src/assets/bongo/image/bongo_cat_stop.gif',
         interaction: 'bongo',
         origin: [
             { type: 'paragraph', content: '이 밈은 2018년경 트위터의 StrayRogue 라는 유저가 한 고양이가 책상을 치는 GIF로 부터 시작되었습니다. 이후 DitzyFlama 라는 유저가 고양이가 손을 치는 위치에 봉고를 놓고 배경 음악으로 슈퍼 마리오 월드의 Athletic 브금을 넣은 동영상을 올렸고, 이 트윗이 인기를 얻으며 유튜브로 전파되어 2018년 9월에 폭발적인 인기를 얻으며 많은 패러디가 만들어지기 시작했습니다.' },
             { type: 'link', name: 'DitzyFlama Twitter - Bongo Cat', url: 'https://x.com/DitzyFlama/status/993487015499853824' },
-            { type: 'paragraph', content: '이후 인기가 폭발하면서 디스코드 서버 오류 화면에도 이 밈이 패러디되었고, 웹상에서 직접 봉고를 칠 수 있는 사이트도 등장하거나 키 뷰어 프로그램이나 방치형 게임으로도 인기를 끌며 유명세를 얻게 되었습니다.' },
-            { type: 'link', name: 'bongo.cat' , url: 'https://bongo.cat/' },
+            { type: 'paragraph', content: '이후 웹상에서 직접 봉고를 칠 수 있는 사이트도 등장하거나 키 뷰어 프로그램이나 방치형 게임으로도 인기를 끌며 유명세를 얻게 되었습니다.' },
+            { type: 'link', name: '다양한 종류의 악기를 연주해볼 수 있는 bongo.cat 사이트' , url: 'https://bongo.cat/' },
             { type: 'paragraph', content: '이 밈을 사용해 노래를 편집해 올리는 "Bongo Cat" 이라는 유튜브 채널도 있습니다.' },
             { type: 'link', name: 'Youtube Channel - Bongo Cat', url: 'https://www.youtube.com/@BongoCat'},
+            { type: 'heading', content: '관련 영상' },
+            { type: 'youtube', name: `BONGO CAT - LETS GO` , url: 'https://www.youtube.com/watch?v=_YSF5iHpGnU' },
+            { type: 'youtube', name: `EEEAAAOOO` , url: 'https://www.youtube.com/watch?v=v1K4EAXe2oo' },
         ],
         source: []
     },

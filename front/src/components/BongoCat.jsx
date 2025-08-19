@@ -73,7 +73,7 @@ const BongoCat = ({ meme }) => {
     if (transformationPhase === 'starting') {
       timeoutRef.current = setTimeout(() => {
         setTransformationPhase('active');
-      }, 500);
+      }, 1000);
     } else if (transformationPhase === 'active') {
       musicRef.current.play().catch(err => console.error("Music play failed:", err));
       // Use a timeout to ensure the image is rendered and centered before starting animation
