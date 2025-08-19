@@ -2,7 +2,7 @@ export const memes = [
     {
         id: 1,
         title: 'Bongo Cat',
-        description: '아무 키나 눌러서 고양이와 봉고를 연주해보세요!',
+        description: '1,2,3,4,5를 눌러서 고양이와 연주해보세요!',
         imageUrl: '/src/assets/bongo/bongo_cat_stop.png',
         interaction: 'bongo',
         origin: [

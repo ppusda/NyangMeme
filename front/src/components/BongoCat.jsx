@@ -18,15 +18,15 @@ import bongoSound5 from '../assets/bongo/sound/bongo_cat_5.mp3';
 import bongoMusic from '../assets/bongo/sound/bongo_cat_music.mp3';
 
 const keyMap = {
-  q: { image: bongoCat1, sound: bongoSound1, seq: '1' },
-  w: { image: bongoCat2, sound: bongoSound2, seq: '2' },
-  e: { image: bongoCat3, sound: bongoSound3, seq: '3' },
-  r: { image: bongoCat4, sound: bongoSound4, seq: '4' },
-  t: { image: bongoCat5, sound: bongoSound5, seq: '5' },
+  '1': { image: bongoCat1, sound: bongoSound1, seq: '1' },
+  '2': { image: bongoCat2, sound: bongoSound2, seq: '2' },
+  '3': { image: bongoCat3, sound: bongoSound3, seq: '3' },
+  '4': { image: bongoCat4, sound: bongoSound4, seq: '4' },
+  '5': { image: bongoCat5, sound: bongoSound5, seq: '5' },
 };
 
 const secretCode = '3535532421';
-const numToKey = { '1': 'q', '2': 'w', '3': 'e', '4': 'r', '5': 't' };
+const numToKey = { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5' };
 
 const BongoCat = ({ meme }) => {
   const [catImage, setCatImage] = useState(bongoCatStop);
@@ -37,6 +37,25 @@ const BongoCat = ({ meme }) => {
   
   const musicRef = useRef(null);
   const timeoutRef = useRef(null);
+
+  // Physics state
+  const containerRef = useRef(null);
+  const imageRef = useRef(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
+  const animationFrameRef = useRef();
+
+  const centerCat = useCallback(() => {
+    if (containerRef.current && imageRef.current) {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const image = imageRef.current;
+      // Set position to center
+      setPosition({
+        x: (containerRect.width - image.offsetWidth) / 2,
+        y: (containerRect.height - image.offsetHeight) / 2,
+      });
+    }
+  }, []);
 
   // Audio setup
   useEffect(() => {
@@ -49,23 +68,70 @@ const BongoCat = ({ meme }) => {
     setTransformationPhase('none');
   }, []);
 
-  // Transformation phase and music logic
+  // Transformation phase, music, and physics logic
   useEffect(() => {
     if (transformationPhase === 'starting') {
       timeoutRef.current = setTimeout(() => {
         setTransformationPhase('active');
-      }, 1000);
+      }, 500);
     } else if (transformationPhase === 'active') {
       musicRef.current.play().catch(err => console.error("Music play failed:", err));
-    } else {
+      // Use a timeout to ensure the image is rendered and centered before starting animation
+      setTimeout(() => {
+        centerCat();
+        setVelocity({ x: (Math.random() - 0.5) * 50, y: (Math.random() - 0.5) * 50 });
+      }, 0);
+    } else { // 'none'
       musicRef.current.pause();
       musicRef.current.currentTime = 0;
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      cancelAnimationFrame(animationFrameRef.current);
+      setVelocity({ x: 0, y: 0 });
     }
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [transformationPhase]);
+  }, [transformationPhase, centerCat]);
+
+  // Physics animation loop
+  useEffect(() => {
+    const animate = () => {
+        if (!containerRef.current || !imageRef.current) return;
+
+        const container = containerRef.current;
+        const image = imageRef.current;
+        const rect = container.getBoundingClientRect();
+        const imageWidth = image.offsetWidth;
+        const imageHeight = image.offsetHeight;
+
+        let newPos = { x: position.x + velocity.x, y: position.y + velocity.y };
+        let newVel = { ...velocity };
+
+        if (newPos.x <= 0 || newPos.x + imageWidth >= rect.width) {
+            newVel.x *= -1;
+            newPos.x = newPos.x <= 0 ? 0 : rect.width - imageWidth;
+        }
+        if (newPos.y <= 0 || newPos.y + imageHeight >= rect.height) {
+            newVel.y *= -1;
+            newPos.y = newPos.y <= 0 ? 0 : rect.height - imageHeight;
+        }
+
+        setPosition(newPos);
+        setVelocity(newVel);
+
+        animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    if (transformationPhase === 'active' && (velocity.x !== 0 || velocity.y !== 0)) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+    } else {
+        cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    return () => cancelAnimationFrame(animationFrameRef.current);
+  }, [position, velocity, transformationPhase]);
+
 
   const playSound = (key) => {
     const audio = new Audio(keyMap[key].sound);
@@ -137,31 +203,11 @@ const BongoCat = ({ meme }) => {
     setCatImage(bongoCatStop);
   }, [meme]);
 
-  const rootContainerClassName = `rounded-lg shadow-xl p-6 max-w-4xl w-full ${
-    transformationPhase === 'active' ? 'music-background-animation' : 'bg-zinc-800'
-  }`;
-
   const mediaContainerStyle = transformationPhase === 'active' ? {
     backgroundImage: `url(${spaceBackground})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   } : {};
-
-  let imageMotionContainerClassName = "w-full h-full flex absolute";
-  if (transformationPhase === 'active') {
-    imageMotionContainerClassName += ' music-image-animation';
-  }
-
-  let imageRotationContainerClassName = "";
-  if (transformationPhase === 'starting') {
-    imageRotationContainerClassName += ' pre-transform-animation';
-  } else if (transformationPhase === 'active') {
-    imageRotationContainerClassName += ' spin-animation';
-  }
-  
-  const imageClassName = `max-w-full max-h-full ${
-    transformationPhase === 'active' ? 'object-contain' : 'w-full h-full object-fill'
-  }`;
 
   let currentImage = catImage;
   if (transformationPhase === 'starting') {
@@ -171,22 +217,38 @@ const BongoCat = ({ meme }) => {
   }
 
   return (
-    <div className={rootContainerClassName}>
+    <div className={`bg-zinc-800 rounded-lg shadow-xl p-6 max-w-4xl w-full ${transformationPhase === 'active' ? 'music-background-animation' : ''}`}>
         <h1 className="text-4xl font-bold mb-4 text-center">{meme.title}</h1>
         <div 
+          ref={containerRef}
           style={mediaContainerStyle}
           className="relative w-full aspect-video rounded-lg mb-6 flex items-center justify-center overflow-hidden bg-zinc-700"
           onClick={transformationPhase !== 'none' ? handleStopTransformation : undefined}
         >
-            <div className={imageMotionContainerClassName}>
-              <div className={imageRotationContainerClassName}>
-                  <img
-                      src={currentImage}
-                      alt={meme.title}
-                      className={imageClassName}
-                  />
-              </div>
-            </div>
+            {transformationPhase === 'active' ? (
+                <img
+                    ref={imageRef}
+                    src={bongoCatMove}
+                    alt={meme.title}
+                    className="absolute cursor-pointer spin-animation"
+                    style={{
+                        left: `${position.x}px`,
+                        top: `${position.y}px`,
+                        height: '35%', // Smaller size as requested
+                        width: 'auto',
+                        userSelect: 'none',
+                    }}
+                    draggable="false"
+                />
+            ) : (
+                <img
+                    ref={imageRef}
+                    src={currentImage}
+                    alt={meme.title}
+                    className="w-full h-full object-fill cursor-pointer"
+                />
+            )}
+
             {transformationPhase === 'none' && (
               <div className="absolute bottom-4 right-4 flex items-center gap-2">
                   <p className="text-zinc-400 text-sm"> 3535532421...?</p>
