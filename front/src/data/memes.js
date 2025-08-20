@@ -46,9 +46,15 @@ export const memes = [
         imageUrl: '/src/assets/nyan/image/nyan_cat_stop.gif',
         interaction: 'nyan',
         origin: [
-            { type: 'paragraph', content: '냥캣(Nyan Cat)은 일본 팝 음악과 날아다니는 고양이 애니메이션이 결합된 인터넷 밈입니다. 2011년 크리스 토레스가 만든 이 GIF 애니메이션은 몸이 팝타르트(Pop-Tart) 모양이고 무지개 꼬리를 가진 고양이가 우주를 날아다니는 모습을 담고 있습니다.' },
-            { type: 'paragraph', content: '이 밈은 특히 배경 음악인 일본 보컬로이드 곡 "Nyanyanyanyanyanyanya!"와 함께 유튜브에서 폭발적인 인기를 얻었으며, 수많은 패러디와 리믹스를 낳았습니다. 단순하지만 중독성 있는 비주얼과 음악으로 전 세계 인터넷 사용자들에게 사랑받는 고전 밈이 되었습니다.' },
-            { type: 'youtube', name: 'Nyan Cat! [Official]', url: 'https://www.youtube.com/watch?v=2yJgwwDcgV8' }
+            { type: 'paragraph', content: '2011년 4월 PRguitarman이 자신의 사이트 LOL COMICS에 업로드한 팝타르트 캣(POP TART CAT)이라는 제목의 그림에서 유래되었습니다.' },
+            { type: 'paragraph', content: '동년 4월 5일, saraj00n가 "Nyanyanyanyanyanyanya" BGM을 씌워 유튜브에 업로드한 것이 계기가 되어 폭발적인 인기를 얻었습니다.'},
+            { type: 'youtube', name: 'Nyan Cat! [Official]', url: 'https://www.youtube.com/watch?v=2yJgwwDcgV8' },
+            { type: 'paragraph', content: '다양한 종류의 Nyan cat을 경험해볼 수 있는 사이트와 이를 중심으로 한 게임이나 여러 패러디가 많이 파생되었습니다.'},
+            { type: 'link', name: '다양한 종류의 Nyan cat을 살펴볼 수 있는 사이트' , url: 'https://www.nyan.cat/' },
+            { type: 'heading', content: '고양이 이야기' },
+            { type: 'paragraph', content: '이 밈의 모티브가 된 고양이인 PRguitarman의 반려 고양이 Marty는 2012년에 고양이 복막염에 걸려 무지개 다리를 건넜다고 합니다.' },
+            { type: 'link', name: '원본이 되었던 초기 이미지' , url: 'https://imgur.com/a/opaeCsk' },
+            { type: 'link', name: 'MTV-O 상을 받은 모습 Marty의 모습' , url: 'https://imgur.com/a/VlxDQsh' },
         ],
         source: []
     },
