@@ -62,6 +62,13 @@ const BongoCat = ({ meme }) => {
     Object.values(keyMap).forEach(val => { new Audio(val.sound); });
     musicRef.current = new Audio(bongoMusic);
     musicRef.current.loop = true;
+
+    return () => {
+      if (musicRef.current) {
+        musicRef.current.pause();
+        musicRef.current.currentTime = 0;
+      }
+    };
   }, []);
 
   const handleStopTransformation = useCallback(() => {
