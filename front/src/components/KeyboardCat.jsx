@@ -7,6 +7,7 @@ import keyboardCatMusic from '../assets/keyboard/sound/keyboard_cat_music.mp3';
 
 const ARROW_DIRECTIONS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 const SEQUENCE_LENGTH = 10; // Length of the arrow sequence
+const INPUT_TIMEOUT = 5000; // 5 seconds
 
 // Arrow component with improved styling
 const Arrow = ({ direction, isActive, isPressed }) => {
@@ -33,22 +34,21 @@ const Arrow = ({ direction, isActive, isPressed }) => {
     );
 };
 
-
 const KeyboardCat = ({ meme }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isAutoPlay, setIsAutoPlay] = useState(false);
-    
+
     // Game state
     const [gameActive, setGameActive] = useState(false);
     const [sequence, setSequence] = useState([]);
     const [currentStep, setCurrentStep] = useState(0);
-    const [mistakes, setMistakes] = useState(0);
     const [showArrows, setShowArrows] = useState(false);
     const [pressedKey, setPressedKey] = useState(null);
+    const [gameMessage, setGameMessage] = useState("이미지를 클릭하여 게임을 시작하세요!");
 
     const audioRef = useRef(null);
     const timerRef = useRef(null);
-    const pressTimeoutRef = useRef(null);
+    const keyPressTimeoutRef = useRef(null);
 
     // Initialize audio
     useEffect(() => {
@@ -61,7 +61,7 @@ const KeyboardCat = ({ meme }) => {
                 audioRef.current.currentTime = 0;
             }
             if (timerRef.current) clearTimeout(timerRef.current);
-            if (pressTimeoutRef.current) clearTimeout(pressTimeoutRef.current);
+            if (keyPressTimeoutRef.current) clearTimeout(keyPressTimeoutRef.current);
         };
     }, []);
 
@@ -69,7 +69,7 @@ const KeyboardCat = ({ meme }) => {
         return Array.from({ length: SEQUENCE_LENGTH }, () => ARROW_DIRECTIONS[Math.floor(Math.random() * ARROW_DIRECTIONS.length)]);
     };
 
-    const stopGame = useCallback(() => {
+    const stopGame = useCallback((message) => {
         setGameActive(false);
         setShowArrows(false);
         if (audioRef.current) {
@@ -77,65 +77,58 @@ const KeyboardCat = ({ meme }) => {
             audioRef.current.currentTime = 0;
         }
         if (timerRef.current) clearTimeout(timerRef.current);
+        if (message) {
+            setGameMessage(message);
+        }
     }, []);
 
     const startGame = () => {
         if (isAutoPlay) return;
-        
-        setMistakes(0);
+
+        setGameMessage(meme.description);
         const newSequence = generateSequence();
         setSequence(newSequence);
         setCurrentStep(0);
         setGameActive(true);
         setShowArrows(true);
-        
+
         audioRef.current.currentTime = 0;
         audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-        
+
         if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => handleMistake(), 3000);
+        timerRef.current = setTimeout(() => stopGame("시간 초과! 다시 시도하려면 클릭하세요."), INPUT_TIMEOUT);
     };
 
-    const handleMistake = () => {
-        const newMistakes = mistakes + 1;
-        setMistakes(newMistakes);
-        if (newMistakes >= 3) {
-            stopGame();
-        } else {
-            nextStep(true); // Pass true to indicate a mistake was made
-        }
-    };
+    const nextStep = () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
 
-    const nextStep = (isMistake = false) => {
-        const next = isMistake ? currentStep : currentStep + 1;
-        let newSequence = sequence;
-
+        const next = currentStep + 1;
         if (next >= sequence.length) {
-            newSequence = generateSequence();
+            // Loop sequence
+            const newSequence = generateSequence();
             setSequence(newSequence);
             setCurrentStep(0);
-        } else if (!isMistake) {
+        } else {
             setCurrentStep(next);
         }
 
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => handleMistake(), 3000);
+        timerRef.current = setTimeout(() => stopGame("시간 초과! 다시 시도하려면 클릭하세요."), INPUT_TIMEOUT);
     };
 
     const handleKeyDown = useCallback((e) => {
         if (!gameActive || !ARROW_DIRECTIONS.includes(e.key)) return;
-        
+
         e.preventDefault();
         setPressedKey(e.key);
-        if (pressTimeoutRef.current) clearTimeout(pressTimeoutRef.current);
-        pressTimeoutRef.current = setTimeout(() => setPressedKey(null), 150);
+        if (keyPressTimeoutRef.current) clearTimeout(keyPressTimeoutRef.current);
+        keyPressTimeoutRef.current = setTimeout(() => setPressedKey(null), 150);
 
         if (e.key === sequence[currentStep]) {
             nextStep();
         } else {
-            handleMistake();
+            stopGame("실수! 다시 시작하려면 클릭하세요.");
         }
-    }, [gameActive, currentStep, sequence]);
+    }, [gameActive, currentStep, sequence, stopGame]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -162,6 +155,9 @@ const KeyboardCat = ({ meme }) => {
 
     const handleAutoPlayToggle = () => {
         setIsAutoPlay(prev => !prev);
+        if (!isAutoPlay) {
+            stopGame("자동 재생 모드");
+        }
     };
 
     const currentImage = isAutoPlay || gameActive ? keyboardCatGif : keyboardCatStop;
@@ -169,7 +165,7 @@ const KeyboardCat = ({ meme }) => {
     return (
         <div className="bg-zinc-800 rounded-lg shadow-xl p-6 max-w-4xl w-full">
             <h1 className="text-4xl font-bold mb-4 text-center">{meme.title}</h1>
-            <div 
+            <div
                 className="relative w-full aspect-video bg-zinc-700 rounded-lg mb-6 flex items-center justify-center overflow-hidden cursor-pointer"
                 onClick={!gameActive ? startGame : undefined}
             >
@@ -187,19 +183,13 @@ const KeyboardCat = ({ meme }) => {
                     </div>
                 )}
 
-                {mistakes > 0 && gameActive && (
-                    <div className="absolute top-4 left-4 text-red-500 text-2xl font-bold">
-                        실수: {mistakes} / 3
-                    </div>
-                )}
-
                 <button
                     onClick={handleAutoPlayToggle}
                     className={`absolute bottom-4 right-4 w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white focus:outline-none ${isAutoPlay ? 'spin-animation' : ''}`}>
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"></path></svg>
                 </button>
             </div>
-            <p className="text-zinc-300 text-lg text-center">{!gameActive && mistakes >= 3 ? "3번 실수했습니다! 다시 시도하려면 이미지를 클릭하세요." : meme.description}</p>
+            <p className="text-zinc-300 text-lg text-center h-8">{gameActive ? meme.description : gameMessage}</p>
             <div className="flex justify-center mt-4">
                 <button onClick={() => setIsExpanded(!isExpanded)} className="text-white">
                     <svg className={`w-6 h-6 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
