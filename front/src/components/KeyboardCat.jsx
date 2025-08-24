@@ -8,6 +8,8 @@ import keyboardCatMusic from '../assets/keyboard/sound/keyboard_cat_music.mp3';
 const ARROW_DIRECTIONS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 const SEQUENCE_LENGTH = 10; // Length of the arrow sequence
 const INPUT_TIMEOUT = 5000; // 5 seconds
+const NORMAL_VOLUME = 1.0;
+const LOW_VOLUME = 0.2;
 
 // Arrow component with improved styling
 const Arrow = ({ direction, isActive, isPressed }) => {
@@ -75,6 +77,7 @@ const KeyboardCat = ({ meme }) => {
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
+            audioRef.current.volume = NORMAL_VOLUME;
         }
         if (timerRef.current) clearTimeout(timerRef.current);
         if (message) {
@@ -92,8 +95,11 @@ const KeyboardCat = ({ meme }) => {
         setGameActive(true);
         setShowArrows(true);
 
-        audioRef.current.currentTime = 0;
-        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.volume = NORMAL_VOLUME;
+            audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        }
 
         if (timerRef.current) clearTimeout(timerRef.current);
         timerRef.current = setTimeout(() => stopGame("시간 초과! 다시 시도하려면 클릭하세요."), INPUT_TIMEOUT);
@@ -104,7 +110,6 @@ const KeyboardCat = ({ meme }) => {
 
         const next = currentStep + 1;
         if (next >= sequence.length) {
-            // Loop sequence
             const newSequence = generateSequence();
             setSequence(newSequence);
             setCurrentStep(0);
@@ -124,9 +129,14 @@ const KeyboardCat = ({ meme }) => {
         keyPressTimeoutRef.current = setTimeout(() => setPressedKey(null), 150);
 
         if (e.key === sequence[currentStep]) {
+            if (audioRef.current) {
+                audioRef.current.volume = NORMAL_VOLUME;
+            }
             nextStep();
         } else {
-            stopGame("실수! 다시 시작하려면 클릭하세요.");
+            if (audioRef.current) {
+                audioRef.current.volume = LOW_VOLUME;
+            }
         }
     }, [gameActive, currentStep, sequence, stopGame]);
 
@@ -142,8 +152,10 @@ const KeyboardCat = ({ meme }) => {
             stopGame();
             audioRef.current.play().catch(e => console.error("Audio play failed:", e));
         } else if (!gameActive) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
         }
     }, [isAutoPlay, gameActive, stopGame]);
 
@@ -214,7 +226,7 @@ const KeyboardCat = ({ meme }) => {
                                         <p className="text-zinc-300 mb-2">{item.name}</p>
                                         <div className="max-w-md aspect-w-16 aspect-h-9">
                                             <iframe
-                                                src={`https://www.youtube.com/embed/${item.url.split('v=')[1]}`}
+                                                src={`https.youtube.com/embed/${item.url.split('v=')[1]}`}
                                                 frameBorder="0"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen
