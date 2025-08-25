@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { memes } from '../data/memes.js';
-import Oiiaii from './Oiiaii';
+import Oiia from './Oiia';
 import KeyboardCat from './KeyboardCat';
 import NyanCat from './NyanCat';
 import BongoCat from './BongoCat';
@@ -19,8 +19,8 @@ const MemeDetail = () => {
         switch (meme.interaction) {
             case 'bongo':
                 return <BongoCat meme={meme} />;
-            case 'oiiaii':
-                return <Oiiaii meme={meme} />;
+            case 'oiia':
+                return <Oiia meme={meme} />;
             case 'keyboard':
                 return <KeyboardCat meme={meme} />;
             case 'nyan':

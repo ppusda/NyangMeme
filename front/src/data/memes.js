@@ -62,8 +62,8 @@ export const memes = [
         id: 4,
         title: 'OIIA CAT',
         description: '클릭해서 고양이를 돌려보세요!',
-        imageUrl: '/src/assets/oiiaii/image/oiiaii.png',
-        interaction: 'oiiaii',
+        imageUrl: '/src/assets/oiia/image/oiia.png',
+        interaction: 'oiia',
         origin: [
             { type: 'paragraph', content: `이 밈은 본래 '해피캣(Happy Cat)' 밈에 등장하는 고양이 중 하나였습니다. 하지만 2024년부터 'OIIA'라는 독특한 사운드를 활용한 노래 커버와 리믹스가 큰 인기를 끌면서 독립적인 밈으로 자리 잡게 되었습니다.` },
             { type: 'heading', content: '대표 리믹스' },

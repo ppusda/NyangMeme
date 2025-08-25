@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// 오이아이 고양이 에셋 불러오기
-import oiiaiiStill from '../assets/oiiaii/image/oiiaii.png';
-import oiiaiiSlowGif from '../assets/oiiaii/image/oiiaii_slow.gif';
-import oiiaiiFastGif from '../assets/oiiaii/image/oiiaii_fast.gif';
-import oiiaiiSlowSound from '../assets/oiiaii/sound/oiiaii_slow.mp3';
-import oiiaiiFastSound from '../assets/oiiaii/sound/oiiaii_fast.mp3';
-import oiiaiiMusicSound from '../assets/oiiaii/sound/oiiaii_music.mp3';
-import spaceBackground from '../assets/oiiaii/image/space_background.jpg';
+// 오이아 고양이 에셋 불러오기
+import oiiaStill from '../assets/oiia/image/oiia.png';
+import oiiaSlowGif from '../assets/oiia/image/oiia_slow.gif';
+import oiiaFastGif from '../assets/oiia/image/oiia_fast.gif';
+import oiiaSlowSound from '../assets/oiia/sound/oiia_slow.mp3';
+import oiiaFastSound from '../assets/oiia/sound/oiia_fast.mp3';
+import oiiaMusicSound from '../assets/oiia/sound/oiia_music.mp3';
+import spaceBackground from '../assets/oiia/image/space_background.jpg';
 
-const Oiiaii = ({ meme }) => {
+const Oiia = ({ meme }) => {
     const [clickCount, setClickCount] = useState(0);
-    const [currentImageSrc, setCurrentImageSrc] = useState(oiiaiiStill);
+    const [currentImageSrc, setCurrentImageSrc] = useState(oiiaStill);
     const [isMusicPlaying, setIsMusicPlaying] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const audioRef = useRef(null);
@@ -40,7 +40,7 @@ const Oiiaii = ({ meme }) => {
 
     useEffect(() => {
         // 밈이 변경될 때 상태 초기화
-        setCurrentImageSrc(oiiaiiStill);
+        setCurrentImageSrc(oiiaStill);
         setClickCount(0);
         setIsMusicPlaying(false);
         if (audioRef.current) {
@@ -64,17 +64,17 @@ const Oiiaii = ({ meme }) => {
         }
 
         let newAudioSrc = null;
-        let newImageToDisplay = oiiaiiStill;
+        let newImageToDisplay = oiiaStill;
 
         if (isMusicPlaying) {
-            newAudioSrc = oiiaiiMusicSound;
-            newImageToDisplay = oiiaiiFastGif;
+            newAudioSrc = oiiaMusicSound;
+            newImageToDisplay = oiiaFastGif;
         } else if (clickCount === 1) {
-            newAudioSrc = oiiaiiSlowSound;
-            newImageToDisplay = oiiaiiSlowGif;
+            newAudioSrc = oiiaSlowSound;
+            newImageToDisplay = oiiaSlowGif;
         } else if (clickCount === 2) {
-            newAudioSrc = oiiaiiFastSound;
-            newImageToDisplay = oiiaiiFastGif;
+            newAudioSrc = oiiaFastSound;
+            newImageToDisplay = oiiaFastGif;
         }
 
         setCurrentImageSrc(newImageToDisplay);
@@ -87,7 +87,7 @@ const Oiiaii = ({ meme }) => {
             if (!isMusicPlaying) {
                 audio.onended = () => {
                     setClickCount(0);
-                    setCurrentImageSrc(oiiaiiStill);
+                    setCurrentImageSrc(oiiaStill);
                 };
             }
             audio.play().catch(e => console.error("Audio play failed:", e));
@@ -267,7 +267,7 @@ const Oiiaii = ({ meme }) => {
                                 top: `${p.y + (imageRef.current ? imageRef.current.offsetHeight / 2 : 0)}px`,
                                 width: `${size}px`,
                                 height: `${size}px`,
-                                backgroundColor: `hsla(${(index * 20) % 360}, 100%, 70%, 0.7)`, // 투명도 및 밝은 색상 추가
+                                backgroundColor: `hsla(${(index * 20) % 360}, 100%, 70%, 0.7)`,
                                 opacity: index / trail.length,
                                 transform: 'translate(-50%, -50%)',
                                 zIndex: 1,
@@ -299,10 +299,10 @@ const Oiiaii = ({ meme }) => {
                 {isMusicPlaying && (
                     <>
                         {/* 이 클론들은 CSS 파일에 정의된 CSS 애니메이션을 사용합니다 */}
-                        <div className="clone clone-1" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
-                        <div className="clone clone-2" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
-                        <div className="clone clone-3" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
-                        <div className="clone clone-4" style={{ backgroundImage: `url(${oiiaiiFastGif})` }}></div>
+                        <div className="clone clone-1" style={{ backgroundImage: `url(${oiiaFastGif})` }}></div>
+                        <div className="clone clone-2" style={{ backgroundImage: `url(${oiiaFastGif})` }}></div>
+                        <div className="clone clone-3" style={{ backgroundImage: `url(${oiiaFastGif})` }}></div>
+                        <div className="clone clone-4" style={{ backgroundImage: `url(${oiiaFastGif})` }}></div>
                     </>
                 )}
             </div>
@@ -350,4 +350,4 @@ const Oiiaii = ({ meme }) => {
     );
 };
 
-export default Oiiaii;
+export default Oiia;
