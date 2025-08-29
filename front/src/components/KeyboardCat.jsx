@@ -12,11 +12,12 @@ const NORMAL_VOLUME = 1.0;
 const LOW_VOLUME = 0.2;
 
 // Arrow component with improved styling
-const Arrow = ({ direction, isActive, isPressed }) => {
+const Arrow = ({ direction, isActive, isPressed, isWrong }) => {
     const baseClasses = "w-16 h-16 border-4 rounded-full flex items-center justify-center transition-all duration-150";
     const inactiveClasses = "bg-zinc-700 border-zinc-600 text-zinc-400";
     const activeClasses = "bg-blue-500 border-blue-400 scale-110 text-white";
     const pressedClasses = "bg-purple-600 border-purple-500 scale-95 text-white";
+    const wrongClasses = "bg-red-600 border-red-500 scale-95 text-white";
 
     const arrowSvg = {
         'ArrowUp': <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 10l7-7m0 0l7 7m-7-7v18" />,
@@ -25,7 +26,7 @@ const Arrow = ({ direction, isActive, isPressed }) => {
         'ArrowRight': <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
     };
 
-    let appliedClasses = isPressed ? pressedClasses : (isActive ? activeClasses : inactiveClasses);
+    let appliedClasses = isWrong ? wrongClasses : (isPressed ? pressedClasses : (isActive ? activeClasses : inactiveClasses));
 
     return (
         <div className={`${baseClasses} ${appliedClasses}`}>
@@ -46,11 +47,13 @@ const KeyboardCat = ({ meme }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [showArrows, setShowArrows] = useState(false);
     const [pressedKey, setPressedKey] = useState(null);
+    const [isWrong, setIsWrong] = useState(false);
     const [gameMessage, setGameMessage] = useState("이미지를 클릭하여 게임을 시작하세요!");
 
     const audioRef = useRef(null);
     const timerRef = useRef(null);
     const keyPressTimeoutRef = useRef(null);
+    const wrongKeyTimeoutRef = useRef(null);
 
     // Initialize audio
     useEffect(() => {
@@ -64,6 +67,7 @@ const KeyboardCat = ({ meme }) => {
             }
             if (timerRef.current) clearTimeout(timerRef.current);
             if (keyPressTimeoutRef.current) clearTimeout(keyPressTimeoutRef.current);
+            if (wrongKeyTimeoutRef.current) clearTimeout(wrongKeyTimeoutRef.current);
         };
     }, []);
 
@@ -94,6 +98,7 @@ const KeyboardCat = ({ meme }) => {
         setCurrentStep(0);
         setGameActive(true);
         setShowArrows(true);
+        setIsWrong(false);
 
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
@@ -128,12 +133,17 @@ const KeyboardCat = ({ meme }) => {
         if (keyPressTimeoutRef.current) clearTimeout(keyPressTimeoutRef.current);
         keyPressTimeoutRef.current = setTimeout(() => setPressedKey(null), 150);
 
+        if (wrongKeyTimeoutRef.current) clearTimeout(wrongKeyTimeoutRef.current);
+
         if (e.key === sequence[currentStep]) {
+            setIsWrong(false);
             if (audioRef.current) {
                 audioRef.current.volume = NORMAL_VOLUME;
             }
             nextStep();
         } else {
+            setIsWrong(true);
+            wrongKeyTimeoutRef.current = setTimeout(() => setIsWrong(false), 150);
             if (audioRef.current) {
                 audioRef.current.volume = LOW_VOLUME;
             }
@@ -190,7 +200,7 @@ const KeyboardCat = ({ meme }) => {
                 {showArrows && gameActive && (
                     <div className="absolute bottom-10 w-full flex justify-center items-center gap-4">
                         {ARROW_DIRECTIONS.map(dir => (
-                            <Arrow key={dir} direction={dir} isActive={dir === sequence[currentStep]} isPressed={dir === pressedKey} />
+                            <Arrow key={dir} direction={dir} isActive={dir === sequence[currentStep]} isPressed={dir === pressedKey} isWrong={isWrong && dir === pressedKey} />
                         ))}
                     </div>
                 )}
