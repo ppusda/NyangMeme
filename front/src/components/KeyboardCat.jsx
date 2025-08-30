@@ -54,6 +54,7 @@ const KeyboardCat = ({ meme }) => {
     const timerRef = useRef(null);
     const keyPressTimeoutRef = useRef(null);
     const wrongKeyTimeoutRef = useRef(null);
+    const keysDownRef = useRef(new Set());
 
     // Initialize audio
     useEffect(() => {
@@ -99,6 +100,7 @@ const KeyboardCat = ({ meme }) => {
         setGameActive(true);
         setShowArrows(true);
         setIsWrong(false);
+        keysDownRef.current.clear();
 
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
@@ -126,9 +128,10 @@ const KeyboardCat = ({ meme }) => {
     };
 
     const handleKeyDown = useCallback((e) => {
-        if (!gameActive || !ARROW_DIRECTIONS.includes(e.key)) return;
+        if (!gameActive || !ARROW_DIRECTIONS.includes(e.key) || keysDownRef.current.has(e.key)) return;
 
         e.preventDefault();
+        keysDownRef.current.add(e.key);
         setPressedKey(e.key);
         if (keyPressTimeoutRef.current) clearTimeout(keyPressTimeoutRef.current);
         keyPressTimeoutRef.current = setTimeout(() => setPressedKey(null), 150);
@@ -150,12 +153,20 @@ const KeyboardCat = ({ meme }) => {
         }
     }, [gameActive, currentStep, sequence, stopGame]);
 
+    const handleKeyUp = useCallback((e) => {
+        if (keysDownRef.current.has(e.key)) {
+            keysDownRef.current.delete(e.key);
+        }
+    }, []);
+
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
         };
-    }, [handleKeyDown]);
+    }, [handleKeyDown, handleKeyUp]);
 
     useEffect(() => {
         if (isAutoPlay) {
@@ -236,7 +247,7 @@ const KeyboardCat = ({ meme }) => {
                                         <p className="text-zinc-300 mb-2">{item.name}</p>
                                         <div className="max-w-md aspect-w-16 aspect-h-9">
                                             <iframe
-                                                src={`https.youtube.com/embed/${item.url.split('v=')[1]}`}
+                                                src={`https://youtube.com/embed/${item.url.split('v=')[1]}`}
                                                 frameBorder="0"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen
