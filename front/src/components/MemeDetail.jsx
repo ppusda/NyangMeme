@@ -5,6 +5,7 @@ import Oiia from './Oiia';
 import KeyboardCat from './KeyboardCat';
 import NyanCat from './NyanCat';
 import BongoCat from './BongoCat';
+import MaxwellCat from './MaxwellCat';
 
 const MemeDetail = () => {
     const { id } = useParams();
@@ -25,6 +26,8 @@ const MemeDetail = () => {
                 return <KeyboardCat meme={meme} />;
             case 'nyan':
                 return <NyanCat meme={meme} />;
+            case 'maxwell':
+                return <MaxwellCat meme={meme} />;
             default:
                 return (
                     <div className="bg-zinc-800 rounded-lg shadow-xl p-6 max-w-4xl w-full">

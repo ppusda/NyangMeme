@@ -76,4 +76,19 @@ export const memes = [
         ],
         source: []
     },
+    {
+        id: 5,
+        title: 'Maxwell Cat',
+        description: '클릭해서 고양이의 여러 애니메이션을 경험해보세요!',
+        imageUrl: '/src/assets/maxwell/maxwell_cat_stop.gif',
+        interaction: 'maxwell',
+        origin: [
+            { type: 'paragraph', content: 'Maxwell the Cat은 원래 \'dingus\'라는 이름의 고양이로, 2017년 한 imgur 유저가 자신의 고양이 사진을 올리면서 처음 알려졌습니다. 이후 이 고양이의 3D 모델이 만들어지고 스팀 창작마당에 게시되면서 Garry\'s Mod와 같은 게임에서 인기를 끌기 시작했습니다.' },
+            { type: 'paragraph', content: '특히 고양이가 빙글빙글 도는 GIF가 유명해지면서 "Maxwell\'s theme"이라는 경쾌한 음악과 함께 널리 퍼졌습니다. 이 밈은 주로 귀엽고 중독성 있는 영상으로 소비되며, 다양한 바리에이션이 존재합니다.' },
+            { type: 'heading', content: '대표 영상' },
+            { type: 'youtube', name: 'Maxwell the Cat Theme (Official)', url: 'https://www.youtube.com/watch?v=hYf_iA2-5qI' },
+            { type: 'link', name: 'Maxwell the Cat 3D Model', url: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2869231230' }
+        ],
+        source: []
+    }
 ];
