@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 
 // Maxwell Cat 에셋 불러오기
@@ -45,29 +46,44 @@ const MaxwellCat = ({ meme }) => {
         }
     }, [isPlaying]);
 
-    const handleImageClick = () => {
-        if (!isPlaying) {
-            setIsPlaying(true);
-        } else {
-            const variations = ['throw', 'turn', 'spin'];
-            const randomVariation = variations[Math.floor(Math.random() * variations.length)];
+    // 키보드 이벤트 리스너
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (!isPlaying) return;
 
-            if (randomVariation === 'spin') {
-                const newClone = {
-                    id: Date.now(),
-                    style: {
-                        '--ty': `${Math.random() * 100 - 50}%`,
-                        '--s': `${Math.random() * 0.4 + 0.3}`,
-                    }
-                };
-                setSpinClones(prevClones => [...prevClones, newClone]);
-            } else if (randomVariation === 'turn') {
-                const newClone = { id: Date.now() };
-                setTurnClones(prevClones => [...prevClones, newClone]);
-            } else if (randomVariation === 'throw') {
-                const newClone = { id: Date.now() };
-                setThrowClones(prevClones => [...prevClones, newClone]);
+            switch (event.key) {
+                case '1':
+                    setThrowClones(prev => [...prev, { id: Date.now() }]);
+                    break;
+                case '2':
+                    setTurnClones(prev => [...prev, { id: Date.now() }]);
+                    break;
+                case '3':
+                    const newSpinClone = {
+                        id: Date.now(),
+                        style: {
+                            '--ty': `${Math.random() * 100 - 50}%`,
+                            '--s': `${Math.random() * 0.4 + 0.3}`,
+                        }
+                    };
+                    setSpinClones(prev => [...prev, newSpinClone]);
+                    break;
+                default:
+                    break;
             }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isPlaying]); // isPlaying이 변경될 때마다 리스너를 다시 설정
+
+    const handleImageClick = () => {
+        if (isPlaying) {
+            handleStop();
+        } else {
+            setIsPlaying(true);
         }
     };
 
@@ -131,15 +147,6 @@ const MaxwellCat = ({ meme }) => {
             </div>
             <div className="flex justify-center items-center space-x-4">
                  <p className="text-zinc-300 text-lg text-center">{meme.description}</p>
-                {/* 정지 버튼 */}
-                {isPlaying && (
-                    <button
-                        onClick={handleStop}
-                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-                    >
-                        Stop
-                    </button>
-                )}
             </div>
 
             <div className="flex justify-center mt-4">

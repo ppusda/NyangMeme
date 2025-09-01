@@ -79,7 +79,7 @@ export const memes = [
     {
         id: 5,
         title: 'Maxwell Cat',
-        description: '클릭해서 고양이의 여러 애니메이션을 경험해보세요!',
+        description: '클릭해서 고양이와 함께 놀아보세요! 음악이 재생되면 1, 2, 3번 키로 특별한 효과를 볼 수 있습니다.',
         imageUrl: '/src/assets/maxwell/maxwell_cat_stop.gif',
         interaction: 'maxwell',
         origin: [
