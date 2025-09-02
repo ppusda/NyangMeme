@@ -83,11 +83,14 @@ export const memes = [
         imageUrl: '/src/assets/maxwell/maxwell_cat_stop.gif',
         interaction: 'maxwell',
         origin: [
-            { type: 'paragraph', content: 'Maxwell the Cat은 원래 \'dingus\'라는 이름의 고양이로, 2017년 한 imgur 유저가 자신의 고양이 사진을 올리면서 처음 알려졌습니다. 이후 이 고양이의 3D 모델이 만들어지고 스팀 창작마당에 게시되면서 Garry\'s Mod와 같은 게임에서 인기를 끌기 시작했습니다.' },
-            { type: 'paragraph', content: '특히 고양이가 빙글빙글 도는 GIF가 유명해지면서 "Maxwell\'s theme"이라는 경쾌한 음악과 함께 널리 퍼졌습니다. 이 밈은 주로 귀엽고 중독성 있는 영상으로 소비되며, 다양한 바리에이션이 존재합니다.' },
+            { type: 'paragraph', content: '이 밈은 360도를 제자리에서 빙빙 돌고있거나, 신난듯이 식빵자세에서 몸을 양옆으로 흔들고 있는 경우가 많습니다.' },
+            { type: 'paragraph', content: '맥스웰 캣 고양이의 사진은 2017년에 찍힌 것이며 "접지 마시오" 라는 종이를 살포시 접어놓은 것이 포인트입니다.' },
+            { type: 'heading', content: '고양이 이야기' },
+            { type: 'paragraph', content: '해당 고양이의 원래 이름은 제스(Jess)이고 성별은 암컷이며 2020년에 암으로 인한 장폐색으로 세상을 떠났습니다. 고양이의 주인인 Voidhawk는 Jess가 떠났지만 밈으로 사람들에게 기억되고 있어 매력적이라는 말을 남겼습니다.' },
+            { type: 'paragraph', content: '원본의 고양이가 밝혀지기 전에는 Dingus라는 고양이가 모델로 유추되어 밈이 Dingus라고도 불리기도 했지만 정확히는 무늬가 다르게 생겼습니다.' },
+            { type: 'paragraph', content: '현재는 맥스웰 캣을 닮은 우니(うに)라는 고양이가 SNS에 등장해 인기를 끌고 있습니다. 우니의 주인도 이 밈을 의식해 BGM을 넣은 영상을 올리기도 하지만 맥스웰과는 다른 고양이라는 것을 명시하고 있습니다.' },
             { type: 'heading', content: '대표 영상' },
-            { type: 'youtube', name: 'Maxwell the Cat Theme (Official)', url: 'https://www.youtube.com/watch?v=hYf_iA2-5qI' },
-            { type: 'link', name: 'Maxwell the Cat 3D Model', url: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2869231230' }
+            { type: 'youtube', name: 'Maxwell dance, but strange( blender animation )', url: 'https://www.youtube.com/watch?v=q25fRoACp5I' },
         ],
         source: []
     }
