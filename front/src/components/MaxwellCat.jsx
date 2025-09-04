@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // Maxwell Cat 에셋 불러오기
-import maxwellStop from '../assets/maxwell/maxwell_cat_stop.gif';
-import maxwellMusic from '../assets/maxwell/maxwell_cat_music.gif';
-import maxwellThrow from '../assets/maxwell/maxwell_cat_throw.gif';
-import maxwellTurn from '../assets/maxwell/maxwell_cat_turn.gif';
-import maxwellSpin from '../assets/maxwell/maxwell_spin.gif';
-import maxwellMusicSound from '../assets/maxwell/maxwell_cat_music.mp3';
+import maxwellStop from '../assets/maxwell/image/maxwell_cat_stop.gif';
+import maxwellMusic from '../assets/maxwell/image/maxwell_cat_music.gif';
+import maxwellThrow from '../assets/maxwell/image/maxwell_cat_throw.gif';
+import maxwellTurn from '../assets/maxwell/image/maxwell_cat_turn.gif';
+import maxwellSpin from '../assets/maxwell/image/maxwell_spin.gif';
+import maxwellMusicSound from '../assets/maxwell/sound/maxwell_cat_music.mp3';
 
 const MaxwellCat = ({ meme }) => {
     const [isPlaying, setIsPlaying] = useState(false);

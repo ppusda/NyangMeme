@@ -79,12 +79,12 @@ export const memes = [
     {
         id: 5,
         title: 'Maxwell Cat',
-        description: '클릭해서 고양이와 함께 놀아보세요! 음악이 재생되면 1, 2, 3번 키로 특별한 효과를 볼 수 있습니다.',
-        imageUrl: '/src/assets/maxwell/maxwell_cat_stop.gif',
+        description: '클릭해서 1, 2, 3을 통해서 고양이의 다양한 특수효과를 경험해보세요!',
+        imageUrl: '/src/assets/maxwell/image/maxwell_cat_stop.gif',
         interaction: 'maxwell',
         origin: [
             { type: 'paragraph', content: '이 밈은 360도를 제자리에서 빙빙 돌고있거나, 신난듯이 식빵자세에서 몸을 양옆으로 흔들고 있는 경우가 많습니다.' },
-            { type: 'paragraph', content: '맥스웰 캣 고양이의 사진은 2017년에 찍힌 것이며 "접지 마시오" 라는 종이를 살포시 접어놓은 것이 포인트입니다.' },
+            { type: 'paragraph', content: '해당 맥스웰 캣 고양이의 사진은 2017년에 찍힌 것이며 "접지 마시오" 라고 적혀있는 종이 위에서 찍힌 것이 포인트입니다.' },
             { type: 'heading', content: '고양이 이야기' },
             { type: 'paragraph', content: '해당 고양이의 원래 이름은 제스(Jess)이고 성별은 암컷이며 2020년에 암으로 인한 장폐색으로 세상을 떠났습니다. 고양이의 주인인 Voidhawk는 Jess가 떠났지만 밈으로 사람들에게 기억되고 있어 매력적이라는 말을 남겼습니다.' },
             { type: 'paragraph', content: '원본의 고양이가 밝혀지기 전에는 Dingus라는 고양이가 모델로 유추되어 밈이 Dingus라고도 불리기도 했지만 정확히는 무늬가 다르게 생겼습니다.' },
